@@ -7,6 +7,7 @@ st.title("🧩 Configurateur de Poste de Travail")
 # Étape 1 : Choix de la famille
 famille = st.selectbox("Choisissez une famille de produit :", [
     "Postes de travail", "Chariot", "Étagère"])
+st.write(f"Famille choisie : {famille}")
 
 # Définir les chemins des images
 image_path_postes = {
@@ -45,8 +46,7 @@ image_path_accessoires = {
     "Éclairage LED (E)": "images/accessoires/led.png",
     "Support air chaud (AC)": "images/accessoires/air_chaud.png"
 }
-famille = st.selectbox("Choisissez une famille de produit :", [
-    "Postes de travail", "Chariot", "Étagère"])
+
 
 # ==== POSTES DE TRAVAIL ====
 if famille == "Postes de travail":
