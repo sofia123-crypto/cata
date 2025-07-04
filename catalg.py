@@ -118,6 +118,7 @@ if famille == "Postes de travail":
 # ==== CHARIOTS ====
 elif famille == "Chariot":
     st.subheader("Sélectionnez le type de chariot")
+    st.write(f"Famille choisie : {famille}")
 
     chariot_selectionne = None
     chariot_options = list(image_path_chariots.keys())
