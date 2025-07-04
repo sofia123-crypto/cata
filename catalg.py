@@ -26,13 +26,13 @@ image_path_chariots = {
     "Chariot pour cartons (1050)": "images/chariots/carton.png"
 }
 
-image_path_etageres = {
+image_path_etagere = {
     "Étagère pour petits bacs": "images/etagere/petits_bacs.png",
-    "Étagère entrée-sortie": "images/etagere/entree_sortie.png",
-    "Stockeur des bacs": "images/etagere/stockeur_bacs.png",
+    "Étagère entrée-sortie (1100)": "images/etagere/entree_sortie.png",
+    "Stockeur des bacs (700)": "images/etagere/stockeur_bacs.png",
     "Étagère 4 étages MDF": "images/etagere/etages_mdf.png",
-    "Étagère pour grands bacs": "images/etagere/grand_bacs.png",
-    "Étagère de stockage à 3 étages":"image/etagere/stockage_3.png"
+    "Étagère pour grands bacs (2000)": "images/etagere/grand_bacs.png",
+    "Étagère de stockage à 3 étages (1600)": "images/etagere/stockage_3.png"
 }
 
 image_path_accessoires = {
@@ -44,8 +44,6 @@ image_path_accessoires = {
     "Repose pied (RP)": "images/accessoires/repose_pied.png",
     "Éclairage LED (E)": "images/accessoires/led.png",
     "Support air chaud (AC)": "images/accessoires/air_chaud.png"
-}
-
 if famille == "Postes de travail":
     st.subheader("Sélectionnez le type de poste de travail")
 
