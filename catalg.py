@@ -34,7 +34,7 @@ if famille == "Postes de travail":
     cols = st.columns(4)
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
-            st.image(img, caption=label, use_column_width=True)
+            st.image(img, caption=label, use_container_width=True)
             if st.button(f"Choisir : {label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
@@ -73,7 +73,7 @@ if famille == "Postes de travail":
         acc_cols = st.columns(4)
         for i, (acc_label, acc_img) in enumerate(image_path_accessoires.items()):
             with acc_cols[i % 4]:
-                st.image(acc_img, caption=acc_label, use_column_width=True)
+                st.image(acc_img, caption=acc_label, use_container_width=True)
                 if st.checkbox(acc_label, key=f"acc_{i}"):
                     accessoires_choisis.append(acc_label)
 
