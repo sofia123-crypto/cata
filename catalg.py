@@ -35,7 +35,7 @@ if famille == "Postes de travail":
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
             st.image(img, caption=label, use_container_width=True)
-            if st.button(f"Choisir : {label}", key=f"poste_{i}"):
+            if st.button(f"{label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
     if "type_poste" in st.session_state:
