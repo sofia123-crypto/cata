@@ -44,6 +44,9 @@ image_path_accessoires = {
     "Repose pied (RP)": "images/accessoires/repose_pied.png",
     "Éclairage LED (E)": "images/accessoires/led.png",
     "Support air chaud (AC)": "images/accessoires/air_chaud.png"
+}
+
+# ==== POSTES DE TRAVAIL ====
 if famille == "Postes de travail":
     st.subheader("Sélectionnez le type de poste de travail")
 
@@ -112,6 +115,7 @@ if famille == "Postes de travail":
     else:
         st.warning("Veuillez sélectionner un type de poste pour continuer.")
 
+# ==== CHARIOTS ====
 elif famille == "Chariot":
     st.subheader("Sélectionnez le type de chariot")
 
@@ -156,6 +160,7 @@ elif famille == "Chariot":
         if st.button("🔍 Générer la référence"):
             st.success(f"📦 Référence générée : {ref_chariot}")
 
+# ==== ÉTAGÈRES ====
 elif famille == "Étagère":
     st.subheader("Sélectionnez le type d'étagère")
 
@@ -170,8 +175,8 @@ elif famille == "Étagère":
             "600": "E-MDF-600",
             "1000": "E-MDF-1000"
         },
-      "Étagère pour grands bacs (2000)": "E-gb-2000",
-      "Étagère de stockage à 3 étages (1600)": "E-s3-1600"
+        "Étagère pour grands bacs (2000)": "E-gb-2000",
+        "Étagère de stockage à 3 étages (1600)": "E-s3-1600"
     }
 
     etagere_selectionne = None
