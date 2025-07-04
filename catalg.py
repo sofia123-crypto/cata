@@ -185,11 +185,15 @@ elif famille == "Étagère":
     }
 
     etagere_selectionne = None
-    etagere_options = list(image_path_etagere.keys())
+    etagere_options = list(image_path_etageres.keys())
     cols = st.columns(2)
     for i, label in enumerate(etagere_options):
         with cols[i % 2]:
-            st.image(image_path_etagere[label], caption=label, use_container_width=True)
+            image_path = image_path_etageres[label]
+            if os.path.exists(image_path):
+                st.image(image_path, caption=label, use_container_width=True)
+            else:
+                st.warning(f"⚠️ Image manquante : {image_path}")
             if st.button(f"Choisir : {label}", key=f"etagere_{i}"):
                 st.session_state["etagere"] = label
 
