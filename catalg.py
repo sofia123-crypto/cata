@@ -7,7 +7,7 @@ col1, col2 = st.columns([5, 1])  # Plus d’espace pour le titre que pour le log
 with col1:
     st.title("🧩 Configurateur de Poste de Travail")
 with col2:
-    st.image("images/safran_logo.png", width=100)  # ← ajuste ici la taille du logo
+    st.image("images/safran_logo.png", width=150)  # ← ajuste ici la taille du logo
 
 
 # Étape 1 : Choix de la famille
