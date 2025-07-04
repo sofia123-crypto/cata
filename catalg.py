@@ -27,12 +27,12 @@ image_path_chariots = {
 }
 
 image_path_etageres = {
-    "Étagère pour petits bacs": "images/etageres/petits_bacs.png",
-    "Étagère entrée-sortie": "images/etageres/entree_sortie.png",
-    "Stockeur des bacs": "images/etageres/stockeur_bacs.png",
-    "Étagère 4 étages MDF": "images/etageres/etages_mdf.png",
-    "Étagère pour grands bacs": "images/etageres/grand_bacs.png",
-    "Étagère de stockage à 3 étages":"image/etageres/stockage_3.png"
+    "Étagère pour petits bacs": "images/etagere/petits_bacs.png",
+    "Étagère entrée-sortie": "images/etagere/entree_sortie.png",
+    "Stockeur des bacs": "images/etagere/stockeur_bacs.png",
+    "Étagère 4 étages MDF": "images/etagere/etages_mdf.png",
+    "Étagère pour grands bacs": "images/etagere/grand_bacs.png",
+    "Étagère de stockage à 3 étages":"image/etagere/stockage_3.png"
 }
 
 image_path_accessoires = {
