@@ -191,7 +191,7 @@ elif famille == "Étagère":
         with cols[i % 2]:
             image_path = image_path_etageres[label]
             if os.path.exists(image_path):
-                st.image(image_path, caption=label, use_container_width=True)
+                st.image(image_path, caption=label, width=200)
             else:
                 st.warning(f"⚠️ Image manquante : {image_path}")
             if st.button(f"Choisir : {label}", key=f"etagere_{i}"):
@@ -209,3 +209,4 @@ elif famille == "Étagère":
 
         if st.button("🔍 Générer la référence"):
             st.success(f"📦 Référence générée : {ref_etagere}")
+
