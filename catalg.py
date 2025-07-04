@@ -78,6 +78,8 @@ if famille == "Postes de travail":
 
         if type_poste == "Poste de travail avec stockeur intégré (Assis)":
             suffixe = "-st"
+        elif type_poste=="Poste de travail simple":
+            suffixe= "-sp"
         elif type_poste == "Poste de travail avec tiroir":
             suffixe = "-tr"
         elif type_poste == "Poste de travail (Assis debout)":
