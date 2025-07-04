@@ -35,13 +35,14 @@ if famille == "Postes de travail":
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
             st.image(img, caption=label, use_container_width=True)
-            if st.button(f"{label}", key=f"poste_{i}"):
+            if st.button(f"Choisir : {label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
     if "type_poste" in st.session_state:
         type_poste = st.session_state["type_poste"]
         st.success(f"✅ Type de poste sélectionné : {type_poste}")
 
+        # Par défaut
         longueurs = {
             "1200": "A-1",
             "1500": "A-2",
@@ -49,6 +50,7 @@ if famille == "Postes de travail":
             "2500": "A-4",
             "3000": "A-5"
         }
+        suffixe = ""
 
         if type_poste == "Poste de travail avec stockeur intégré (Assis)":
             suffixe = "-1"
@@ -57,14 +59,12 @@ if famille == "Postes de travail":
         elif type_poste == "Poste de travail (Assis debout)":
             suffixe = "-3"
             longueurs = {
-                "1200": "A-1-3",
-                "1500": "A-2-3"
+                "1200": "A-1",
+                "1500": "A-2"
             }
-        else:
-            suffixe = ""
 
         longueur = st.selectbox("Choisissez une longueur :", list(longueurs.keys()))
-        ref_principale = longueurs[longueur]
+        ref_base = longueurs[longueur] + suffixe
 
         # Étape Accessoires
         st.subheader("Ajoutez vos accessoires")
@@ -90,7 +90,7 @@ if famille == "Postes de travail":
 
         if st.button("🔍 Générer la référence"):
             accessoires_code = "-" + "-".join([accessoires_ref[a] for a in accessoires_choisis]) if accessoires_choisis else ""
-            reference_finale = ref_principale + accessoires_code
+            reference_finale = ref_base + accessoires_code
             st.success(f"📦 Référence générée : {reference_finale}")
     else:
         st.warning("Veuillez sélectionner un type de poste pour continuer.")
