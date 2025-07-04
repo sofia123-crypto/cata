@@ -2,7 +2,13 @@ import streamlit as st
 import os
 
 st.set_page_config(page_title="🧩 Sélecteur de Poste", layout="wide")
-st.title("🧩 Configurateur de Poste de Travail")
+# Affichage du titre avec le logo aligné à droite (logo redimensionné)
+col1, col2 = st.columns([5, 1])  # Plus d’espace pour le titre que pour le logo
+with col1:
+    st.title("🧩 Configurateur de Poste de Travail")
+with col2:
+    st.image("images/safran_logo.png", width=100)  # ← ajuste ici la taille du logo
+
 
 # Étape 1 : Choix de la famille
 famille = st.selectbox("Choisissez une famille de produit :", [
