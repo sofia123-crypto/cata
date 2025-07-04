@@ -68,23 +68,23 @@ if famille == "Postes de travail":
 
         # Par défaut
         longueurs = {
-            "1200": "A-1",
-            "1500": "A-2",
-            "1800": "A-3",
-            "2500": "A-4",
-            "3000": "A-5"
+            "1200": "P-1200",
+            "1500": "P-1500",
+            "1800": "P-1800",
+            "2500": "P-2500",
+            "3000": "P-3000"
         }
         suffixe = ""
 
         if type_poste == "Poste de travail avec stockeur intégré (Assis)":
-            suffixe = "-1"
+            suffixe = "-st"
         elif type_poste == "Poste de travail avec tiroir":
-            suffixe = "-2"
+            suffixe = "-tr"
         elif type_poste == "Poste de travail (Assis debout)":
-            suffixe = "-3"
+            suffixe = "-ad"
             longueurs = {
-                "1200": "A-1",
-                "1500": "A-2"
+                "1200": "P-1200",
+                "1500": "P-1500"
             }
 
         longueur = st.selectbox("Choisissez une longueur :", list(longueurs.keys()))
