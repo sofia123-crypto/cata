@@ -122,14 +122,13 @@ if famille == "Postes de travail":
 # ==== CHARIOTS ====
 elif famille == "Chariot":
     st.subheader("Sélectionnez le type de chariot")
-    
 
     chariot_selectionne = None
     chariot_options = list(image_path_chariots.keys())
     cols = st.columns(3)
     for i, label in enumerate(chariot_options):
         with cols[i % 3]:
-            st.image(image_path_chariots[label], caption=label, use_container_width=True)
+            st.image(image_path_chariots[label], caption=label, width=200)  # ← taille réduite ici
             if st.button(f"Choisir : {label}", key=f"chariot_{i}"):
                 st.session_state["chariot"] = label
 
@@ -164,6 +163,7 @@ elif famille == "Chariot":
 
         if st.button("🔍 Générer la référence"):
             st.success(f"📦 Référence générée : {ref_chariot}")
+
 
 # ==== ÉTAGÈRES ====
 elif famille == "Étagère":
