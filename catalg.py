@@ -18,8 +18,8 @@ image_path_postes = {
 
 image_path_chariots = {
     "Chariot de bacs (1200)": "images/chariots/bacs.png",
-    "Chariot de transport des produits": "images/chariots/transport.png",
-    "Chariot pour produits de grande taille (1300)": "images/chariots/grand.png",
+    "Chariot de transport des produits": "images/chariots/transport_produits.png",
+    "Chariot pour produits de grande taille (1300)": "images/chariots/grande_taille.png",
     "Support visseuse (1800)": "images/chariots/visseuse.png",
     "Chariot transport 4 étages": "images/chariots/etages.png",
     "Chariot 4 étages avec base MDF": "images/chariots/etages_mdf.png",
@@ -30,7 +30,7 @@ image_path_etageres = {
     "Étagère pour petits bacs": "images/etageres/petits_bacs.png",
     "Étagère entrée-sortie": "images/etageres/entree_sortie.png",
     "Stockeur des bacs": "images/etageres/stockeur_bacs.png",
-    "Étagère 4 étages MDF": "images/etageres/etages_mdf.png",
+    "Étagère 4 étages MDF": "images/etageres/mdf.png",
     "Étagère pour grands bacs": "images/etageres/grand_bacs.png",
     "Étagère de stockage à 3 étages":"image/etageres/stockage_3.png"
 }
