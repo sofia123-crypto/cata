@@ -52,7 +52,6 @@ image_path_accessoires = {
     "Support air chaud (AC)": "images/accessoires/air_chaud.png"
 }
 
-# ... le reste du code ne change pas ...
 
 
 
@@ -65,7 +64,7 @@ if famille == "Postes de travail":
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
             st.image(img, caption=label, use_container_width=True)
-            if st.button(f"Choisir : {label}", key=f"poste_{i}"):
+            if st.button(f": {label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
     if "type_poste" in st.session_state:
@@ -137,7 +136,7 @@ elif famille == "Chariot":
     for i, label in enumerate(chariot_options):
         with cols[i % 3]:
             st.image(image_path_chariots[label], caption=label, width=200)  # ← taille réduite ici
-            if st.button(f"Choisir : {label}", key=f"chariot_{i}"):
+            if st.button(f" : {label}", key=f"chariot_{i}"):
                 st.session_state["chariot"] = label
 
     if "chariot" in st.session_state:
@@ -147,10 +146,10 @@ elif famille == "Chariot":
         types_chariots = {
             "Chariot de bacs (1200)": "C-b-1200",
             "Chariot de transport des produits": {
-                "1100": "C-tr-1100",
-                "500": "C-tr-500"
+                "1100": "C-trs-1100",
+                "500": "C-trs-500"
             },
-            "Chariot pour produits de grande taille (1300)": "C-pd-1300",
+            "Chariot pour produits de grande taille (1300)": "C-pdg-1300",
             "Support visseuse (1800)": "SP-1800",
             "Chariot transport 4 étages": {
                 "600": "C-tr4-600",
@@ -202,7 +201,7 @@ elif famille == "Étagère":
                 st.image(image_path, caption=label, width=200)
             else:
                 st.warning(f"⚠️ Image manquante : {image_path}")
-            if st.button(f"Choisir : {label}", key=f"etagere_{i}"):
+            if st.button(f" : {label}", key=f"etagere_{i}"):
                 st.session_state["etagere"] = label
 
     if "etagere" in st.session_state:
