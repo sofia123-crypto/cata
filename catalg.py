@@ -64,7 +64,7 @@ if famille == "Postes de travail":
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
             st.image(img, caption=label, use_container_width=True)
-            if st.button(f": {label}", key=f"poste_{i}"):
+            if st.button(f" {label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
     if "type_poste" in st.session_state:
@@ -136,7 +136,7 @@ elif famille == "Chariot":
     for i, label in enumerate(chariot_options):
         with cols[i % 3]:
             st.image(image_path_chariots[label], caption=label, width=200)  # ← taille réduite ici
-            if st.button(f" : {label}", key=f"chariot_{i}"):
+            if st.button(f"  {label}", key=f"chariot_{i}"):
                 st.session_state["chariot"] = label
 
     if "chariot" in st.session_state:
@@ -201,7 +201,7 @@ elif famille == "Étagère":
                 st.image(image_path, caption=label, width=200)
             else:
                 st.warning(f"⚠️ Image manquante : {image_path}")
-            if st.button(f" : {label}", key=f"etagere_{i}"):
+            if st.button(f"  {label}", key=f"etagere_{i}"):
                 st.session_state["etagere"] = label
 
     if "etagere" in st.session_state:
