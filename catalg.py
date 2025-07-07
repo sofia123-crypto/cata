@@ -146,8 +146,8 @@ elif famille == "Chariot":
         types_chariots = {
             "Chariot de bacs (1200)": "C-b-1200",
             "Chariot de transport des produits": {
-                "1100": "C-trs-1100",
-                "500": "C-trs-500"
+                "1100": "C-tr-1100",
+                "500": "C-tr-500"
             },
             "Chariot pour produits de grande taille (1300)": "C-pdg-1300",
             "Support visseuse (1800)": "SP-1800",
