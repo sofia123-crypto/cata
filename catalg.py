@@ -55,40 +55,44 @@ image_path_accessoires = {
 }
 
 # === Sélection famille ===
-def select_type(image_dict, state_key, cols_per_row=3):
-    items = list(image_dict.items())
-    cols = st.columns(cols_per_row)
-    for i, (label, img) in enumerate(items):
-        with cols[i % cols_per_row]:
-            if state_key in ["chariot", "etagere"]:
-                st.image(img, caption=label, width=180)
-            else:
-                st.image(img, caption=label, use_container_width=True)
-            if st.button("Sélectionner", key=f"{state_key}_{i}"):
-                st.session_state[state_key] = label
+st.subheader("Sélectionnez une famille de produits")
+cols = st.columns(3)
+for i, (label, img_path) in enumerate(image_path_familles.items()):
+    with cols[i]:
+        st.image(img_path, use_container_width=True)
+        st.markdown(
+            f'<div style="text-align:center"><button onclick="window.location.reload()" style="padding:6px 16px;border:none;border-radius:6px;background:#f0f2f6;font-weight:600;" '
+            f'id="choose_btn_{i}">{label}</button></div>',
+            unsafe_allow_html=True
+        )
+        if st.button("Choisir", key=f"famille_{i}"):
+            st.session_state["famille"] = label
+
+# === Gérer la variable "famille"
+if "famille" not in st.session_state:
+    st.info("👉 Veuillez sélectionner une famille de produits pour continuer.")
+    st.stop()
+else:
+    famille = st.session_state["famille"]
+    st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
 # === Fonction de sélection générique ===
 def select_type(image_dict, state_key, cols_per_row=3):
     items = list(image_dict.items())
-    cols = st.columns(cols_per_row)
-    for i, (label, img) in enumerate(items):
-        with cols[i % cols_per_row]:
-            st.image(img, caption=label, use_container_width=True)
-            if st.button("Sélectionner", key=f"{state_key}_{i}"):
-                st.session_state[state_key] = label
-
-def select_type(image_dict, state_key, cols_per_row=3):
-    items = list(image_dict.items())
-    cols = st.columns(cols_per_row)
-    for i, (label, img) in enumerate(items):
-        with cols[i % cols_per_row]:
-            if state_key in ["chariot", "etagere"]:
-                st.image(img, caption=label, width=180)
-            else:
-                st.image(img, caption=label, use_container_width=True)
-            if st.button("Sélectionner", key=f"{state_key}_{i}"):
-                st.session_state[state_key] = label
-
+    rows = (len(items) + cols_per_row - 1) // cols_per_row
+    for row in range(rows):
+        cols = st.columns(cols_per_row)
+        for i in range(cols_per_row):
+            idx = row * cols_per_row + i
+            if idx < len(items):
+                label, img = items[idx]
+                with cols[i]:
+                    if state_key in ["chariot", "etagere"]:
+                        st.image(img, caption=label, width=180)
+                    else:
+                        st.image(img, caption=label, use_container_width=True)
+                    if st.button("Sélectionner", key=f"{state_key}_{idx}"):
+                        st.session_state[state_key] = label
 
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une longueur")
