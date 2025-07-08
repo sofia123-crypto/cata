@@ -8,7 +8,7 @@ col1, col2 = st.columns([5, 1])
 with col1:
     st.title("🧩 Configurateur de Poste de Travail")
 with col2:
-    st.image("images/safran_logo.png", width=150)
+    st.image("images/safran_logo.png", width=120)
 
 # === Définition des images ===
 image_path_familles = {
@@ -60,14 +60,14 @@ cols = st.columns(3)
 for i, (label, img_path) in enumerate(image_path_familles.items()):
     with cols[i]:
         st.image(img_path, caption=label, use_container_width=True)
-        if st.button(f"Choisir : {label}", key=f"famille_{i}"):
+        if st.button(f" {label}", key=f"famille_{i}"):
             st.session_state["famille"] = label
 
 if "famille" not in st.session_state:
     st.stop()
 
 famille = st.session_state["famille"]
-st.markdown(f"### 🧭 Famille sélectionnée : **{famille}**")
+st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
 # === POSTES DE TRAVAIL ===
 if famille == "Postes de travail":
@@ -85,7 +85,7 @@ if famille == "Postes de travail":
         st.success(f"✅ Type de poste sélectionné : {type_poste}")
 
         longueurs = {
-            "1200": "P-1200",
+             "P-1200",
             "1500": "P-1500",
             "1800": "P-1800",
             "2500": "P-2500",
