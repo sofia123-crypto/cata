@@ -60,42 +60,35 @@ cols = st.columns(3)
 for i, (label, img_path) in enumerate(image_path_familles.items()):
     with cols[i]:
         st.image(img_path, use_container_width=True)
-        st.markdown(
-            f'<div style="text-align:center"><button onclick="window.location.reload()" style="padding:6px 16px;border:none;border-radius:6px;background:#f0f2f6;font-weight:600;" '
-            f'id="choose_btn_{i}">{label}</button></div>',
-            unsafe_allow_html=True
-        )
-        if st.button("Choisir", key=f"famille_{i}"):
+        st.markdown(f"<div style='text-align:center;'>{st.button('Choisir', key=f'famille_{i}')}</div>", unsafe_allow_html=True)
+        if st.session_state.get(f"famille_{i}"):
             st.session_state["famille"] = label
 
-# === Gérer la variable "famille"
 if "famille" not in st.session_state:
-    st.info("👉 Veuillez sélectionner une famille de produits pour continuer.")
     st.stop()
-else:
-    famille = st.session_state["famille"]
-    st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
-# === Fonction de sélection générique ===
+famille = st.session_state["famille"]
+st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
+
+# === Fonction sélection générique ===
 def select_type(image_dict, state_key, cols_per_row=3):
     items = list(image_dict.items())
     rows = (len(items) + cols_per_row - 1) // cols_per_row
-    for row in range(rows):
+    for r in range(rows):
         cols = st.columns(cols_per_row)
         for i in range(cols_per_row):
-            idx = row * cols_per_row + i
-            if idx < len(items):
-                label, img = items[idx]
-                with cols[i]:
-                    if state_key in ["chariot", "etagere"]:
-                        st.image(img, caption=label, width=180)
-                    else:
-                        st.image(img, caption=label, use_container_width=True)
-                    if st.button("Sélectionner", key=f"{state_key}_{idx}"):
-                        st.session_state[state_key] = label
+            idx = r * cols_per_row + i
+            if idx >= len(items):
+                continue
+            label, img = items[idx]
+            with cols[i]:
+                img_width = 150 if state_key in ["chariot", "etagere"] else None
+                st.image(img, caption=label, width=img_width, use_column_width=(img_width is None))
+                if st.button("Sélectionner", key=f"{state_key}_{idx}"):
+                    st.session_state[state_key] = label
 
 def select_largeur(largeurs, state_key):
-    st.subheader("Choisissez une longueur")
+    st.subheader("Choisissez une largeur")
     cols = st.columns(len(largeurs))
     for i, val in enumerate(largeurs):
         with cols[i]:
@@ -116,7 +109,7 @@ if famille == "Postes de travail":
         type_poste = st.session_state["type_poste"]
         st.success(f"✅ Type de poste sélectionné : {type_poste}")
 
-        longueurs = {
+        largeurs = {
             "1200": "P-1200",
             "1500": "P-1500",
             "1800": "P-1800",
@@ -132,12 +125,11 @@ if famille == "Postes de travail":
             suffixe = "-tr"
         elif type_poste == "Poste de travail (Assis debout)":
             suffixe = "-ad"
-            longueurs = {"1200": "P-1200", "1500": "P-1500"}
+            largeurs = {"1200": "P-1200", "1500": "P-1500"}
 
-        selected = select_largeur(list(longueurs.keys()), "longueur")
+        selected = select_largeur(list(largeurs.keys()), "largeur")
         if selected:
-            ref_base = longueurs[selected] + suffixe
-
+            ref_base = largeurs[selected] + suffixe
             st.subheader("Ajoutez vos accessoires")
             accessoires_choisis = []
             acc_items = list(image_path_accessoires.items())
@@ -169,10 +161,9 @@ elif famille == "Chariot":
     select_type(image_path_chariots, "chariot", 4)
 
     if "chariot" in st.session_state:
-        choix_chariot = st.session_state["chariot"]
-        st.success(f"✅ Chariot sélectionné : {choix_chariot}")
-
-        types_chariots = {
+        choix = st.session_state["chariot"]
+        st.success(f"✅ Chariot sélectionné : {choix}")
+        types = {
             "Chariot de bacs (1200)": "C-b-1200",
             "Chariot de transport des produits": {"1100": "C-tr-1100", "500": "C-tr-500"},
             "Chariot pour produits de grande taille (1300)": "C-pdg-1300",
@@ -181,14 +172,12 @@ elif famille == "Chariot":
             "Chariot 4 étages avec base MDF": {"600": "C-trMDF-600", "1000": "C-trMDF-1000"},
             "Chariot pour cartons (1050)": "C-crt-1050"
         }
-
-        if isinstance(types_chariots[choix_chariot], dict):
-            selected = select_largeur(list(types_chariots[choix_chariot].keys()), "largeur_chariot")
+        if isinstance(types[choix], dict):
+            selected = select_largeur(list(types[choix].keys()), "largeur_chariot")
             if selected:
-                ref = types_chariots[choix_chariot][selected]
-                generate_ref_button(ref)
+                generate_ref_button(types[choix][selected])
         else:
-            generate_ref_button(types_chariots[choix_chariot])
+            generate_ref_button(types[choix])
 
 # === ÉTAGÈRES ===
 elif famille == "Étagère":
@@ -196,10 +185,9 @@ elif famille == "Étagère":
     select_type(image_path_etageres, "etagere", 3)
 
     if "etagere" in st.session_state:
-        choix_etagere = st.session_state["etagere"]
-        st.success(f"✅ Étagère sélectionnée : {choix_etagere}")
-
-        types_etageres = {
+        choix = st.session_state["etagere"]
+        st.success(f"✅ Étagère sélectionnée : {choix}")
+        types = {
             "Étagère pour petits bacs": {"700": "E-pb-700", "1500": "E-pb-1500"},
             "Étagère entrée-sortie (1100)": "E-es-1100",
             "Stockeur des bacs (700)": "SB-700",
@@ -207,11 +195,9 @@ elif famille == "Étagère":
             "Étagère pour grands bacs (2000)": "E-gb-2000",
             "Étagère de stockage à 3 étages (1600)": "E-s3-1600"
         }
-
-        if isinstance(types_etageres[choix_etagere], dict):
-            selected = select_largeur(list(types_etageres[choix_etagere].keys()), "largeur_etagere")
+        if isinstance(types[choix], dict):
+            selected = select_largeur(list(types[choix].keys()), "largeur_etagere")
             if selected:
-                ref = types_etageres[choix_etagere][selected]
-                generate_ref_button(ref)
+                generate_ref_button(types[choix][selected])
         else:
-            generate_ref_button(types_etageres[choix_etagere])
+            generate_ref_button(types[choix])
