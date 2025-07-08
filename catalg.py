@@ -188,7 +188,6 @@ elif famille == "Chariot":
 
         if isinstance(types_chariots[choix_chariot], dict):
             st.subheader("Choisissez une largeur")
-            largeur_selectionnee = None
             largeurs = list(types_chariots[choix_chariot].keys())
             cols = st.columns(len(largeurs))
 
@@ -200,15 +199,18 @@ elif famille == "Chariot":
             if "largeur_chariot" in st.session_state:
                 largeur = st.session_state["largeur_chariot"]
                 ref_chariot = types_chariots[choix_chariot][largeur]
+
+                if st.button("🔍 Générer la référence"):
+                    st.success(f"📦 Référence générée : {ref_chariot}")
             else:
                 st.warning("Veuillez sélectionner une largeur.")
                 st.stop()
 
         else:
             ref_chariot = types_chariots[choix_chariot]
+            if st.button("🔍 Générer la référence"):
+                st.success(f"📦 Référence générée : {ref_chariot}")
 
-        if st.button("🔍 Générer la référence"):
-            st.success(f"📦 Référence générée : {ref_chariot}")
 
 # === ÉTAGÈRES ===
 elif famille == "Étagère":
