@@ -2,19 +2,21 @@ import streamlit as st
 import os
 
 st.set_page_config(page_title="🧩 Sélecteur de Poste", layout="wide")
-# Affichage du titre avec le logo aligné à droite (logo redimensionné)
-col1, col2 = st.columns([5, 1])  # Plus d’espace pour le titre que pour le logo
+
+# === En-tête avec logo ===
+col1, col2 = st.columns([5, 1])
 with col1:
     st.title("🧩 Configurateur de Poste de Travail")
 with col2:
-    st.image("images/safran_logo.png", width=150)  # ← ajuste ici la taille du logo
+    st.image("images/safran_logo.png", width=150)
 
+# === Définition des images ===
+image_path_familles = {
+    "Postes de travail": "images/familles/poste.png",
+    "Chariot": "images/familles/chariot.png",
+    "Étagère": "images/familles/etagere.png"
+}
 
-# Étape 1 : Choix de la famille
-famille = st.selectbox("Choisissez une famille de produit :", [
-    "Postes de travail", "Chariot", "Étagère"])
-
-# Définir les chemins des images
 image_path_postes = {
     "Poste de travail simple": "images/simple.png",
     "Poste de travail avec stockeur intégré (Assis)": "images/stockeur.png",
@@ -52,26 +54,36 @@ image_path_accessoires = {
     "Support air chaud (AC)": "images/accessoires/air_chaud.png"
 }
 
+# === Étape 1 : Sélection de la famille ===
+st.subheader("Sélectionnez une famille de produits")
+cols = st.columns(3)
+for i, (label, img_path) in enumerate(image_path_familles.items()):
+    with cols[i]:
+        st.image(img_path, caption=label, use_container_width=True)
+        if st.button(f"Choisir : {label}", key=f"famille_{i}"):
+            st.session_state["famille"] = label
 
+if "famille" not in st.session_state:
+    st.stop()
 
+famille = st.session_state["famille"]
+st.markdown(f"### 🧭 Famille sélectionnée : **{famille}**")
 
-# ==== POSTES DE TRAVAIL ====
+# === POSTES DE TRAVAIL ===
 if famille == "Postes de travail":
     st.subheader("Sélectionnez le type de poste de travail")
 
-    type_poste_selectionne = None
     cols = st.columns(4)
     for i, (label, img) in enumerate(image_path_postes.items()):
         with cols[i % 4]:
             st.image(img, caption=label, use_container_width=True)
-            if st.button(f" {label}", key=f"poste_{i}"):
+            if st.button(f"{label}", key=f"poste_{i}"):
                 st.session_state["type_poste"] = label
 
     if "type_poste" in st.session_state:
         type_poste = st.session_state["type_poste"]
         st.success(f"✅ Type de poste sélectionné : {type_poste}")
 
-        # Par défaut
         longueurs = {
             "1200": "P-1200",
             "1500": "P-1500",
@@ -80,11 +92,10 @@ if famille == "Postes de travail":
             "3000": "P-3000"
         }
         suffixe = ""
-
         if type_poste == "Poste de travail avec stockeur intégré (Assis)":
             suffixe = "-st"
-        elif type_poste=="Poste de travail simple":
-            suffixe= "-sp"
+        elif type_poste == "Poste de travail simple":
+            suffixe = "-sp"
         elif type_poste == "Poste de travail avec tiroir":
             suffixe = "-tr"
         elif type_poste == "Poste de travail (Assis debout)":
@@ -94,19 +105,36 @@ if famille == "Postes de travail":
                 "1500": "P-1500"
             }
 
-        longueur = st.selectbox("Choisissez une longueur :", list(longueurs.keys()))
-        ref_base = longueurs[longueur] + suffixe
+        st.subheader("Choisissez une longueur")
+        selected_longueur = None
+        length_cols = st.columns(len(longueurs))
+        for i, longueur_val in enumerate(longueurs.keys()):
+            with length_cols[i]:
+                if st.button(f"{longueur_val}", key=f"btn_long_{i}"):
+                    st.session_state["longueur"] = longueur_val
+                st.markdown(f"**{longueur_val}**")
 
-        # Étape Accessoires
+        if "longueur" in st.session_state:
+            longueur = st.session_state["longueur"]
+            ref_base = longueurs[longueur] + suffixe
+        else:
+            st.warning("Sélectionnez une longueur pour continuer.")
+            st.stop()
+
         st.subheader("Ajoutez vos accessoires")
         accessoires_choisis = []
-
-        acc_cols = st.columns(4)
-        for i, (acc_label, acc_img) in enumerate(image_path_accessoires.items()):
-            with acc_cols[i % 4]:
-                st.image(acc_img, caption=acc_label, use_container_width=True)
-                if st.checkbox(acc_label, key=f"acc_{i}"):
-                    accessoires_choisis.append(acc_label)
+        acc_items = list(image_path_accessoires.items())
+        acc_rows = (len(acc_items) + 3) // 4
+        for row in range(acc_rows):
+            cols = st.columns(4)
+            for col in range(4):
+                idx = row * 4 + col
+                if idx < len(acc_items):
+                    acc_label, acc_img = acc_items[idx]
+                    with cols[col]:
+                        st.image(acc_img, caption=acc_label, width=100)
+                        if st.checkbox(acc_label, key=f"acc_{idx}"):
+                            accessoires_choisis.append(acc_label)
 
         accessoires_ref = {
             "Tiroir (T)": "T",
@@ -123,20 +151,16 @@ if famille == "Postes de travail":
             accessoires_code = "-" + "-".join([accessoires_ref[a] for a in accessoires_choisis]) if accessoires_choisis else ""
             reference_finale = ref_base + accessoires_code
             st.success(f"📦 Référence générée : {reference_finale}")
-    else:
-        st.warning("Veuillez sélectionner un type de poste pour continuer.")
 
-# ==== CHARIOTS ====
+# === CHARIOTS ===
 elif famille == "Chariot":
     st.subheader("Sélectionnez le type de chariot")
 
-    chariot_selectionne = None
-    chariot_options = list(image_path_chariots.keys())
     cols = st.columns(3)
-    for i, label in enumerate(chariot_options):
+    for i, (label, img) in enumerate(image_path_chariots.items()):
         with cols[i % 3]:
-            st.image(image_path_chariots[label], caption=label, width=200)  # ← taille réduite ici
-            if st.button(f"  {label}", key=f"chariot_{i}"):
+            st.image(img, caption=label, width=200)
+            if st.button(f"{label}", key=f"chariot_{i}"):
                 st.session_state["chariot"] = label
 
     if "chariot" in st.session_state:
@@ -171,8 +195,7 @@ elif famille == "Chariot":
         if st.button("🔍 Générer la référence"):
             st.success(f"📦 Référence générée : {ref_chariot}")
 
-
-# ==== ÉTAGÈRES ====
+# === ÉTAGÈRES ===
 elif famille == "Étagère":
     st.subheader("Sélectionnez le type d'étagère")
 
@@ -191,17 +214,14 @@ elif famille == "Étagère":
         "Étagère de stockage à 3 étages (1600)": "E-s3-1600"
     }
 
-    etagere_selectionne = None
-    etagere_options = list(image_path_etageres.keys())
     cols = st.columns(2)
-    for i, label in enumerate(etagere_options):
+    for i, (label, img) in enumerate(image_path_etageres.items()):
         with cols[i % 2]:
-            image_path = image_path_etageres[label]
-            if os.path.exists(image_path):
-                st.image(image_path, caption=label, width=200)
+            if os.path.exists(img):
+                st.image(img, caption=label, width=200)
             else:
-                st.warning(f"⚠️ Image manquante : {image_path}")
-            if st.button(f"  {label}", key=f"etagere_{i}"):
+                st.warning(f"⚠️ Image manquante : {img}")
+            if st.button(f"{label}", key=f"etagere_{i}"):
                 st.session_state["etagere"] = label
 
     if "etagere" in st.session_state:
@@ -216,4 +236,3 @@ elif famille == "Étagère":
 
         if st.button("🔍 Générer la référence"):
             st.success(f"📦 Référence générée : {ref_etagere}")
-
