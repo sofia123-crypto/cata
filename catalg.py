@@ -110,9 +110,9 @@ if famille == "Postes de travail":
         length_cols = st.columns(len(longueurs))
         for i, longueur_val in enumerate(longueurs.keys()):
             with length_cols[i]:
-                if st.button(f"{longueur_val}", key=f"btn_long_{i}"):
+                if st.button(f"📏 {longueur_val} mm", key=f"btn_long_{i}"):
                     st.session_state["longueur"] = longueur_val
-                st.markdown(f"**{longueur_val}**")
+
 
         if "longueur" in st.session_state:
             longueur = st.session_state["longueur"]
@@ -187,8 +187,23 @@ elif famille == "Chariot":
         }
 
         if isinstance(types_chariots[choix_chariot], dict):
-            largeur = st.selectbox("Choisissez la largeur :", list(types_chariots[choix_chariot].keys()))
-            ref_chariot = types_chariots[choix_chariot][largeur]
+            st.subheader("Choisissez une largeur")
+            largeur_selectionnee = None
+            largeurs = list(types_chariots[choix_chariot].keys())
+            cols = st.columns(len(largeurs))
+
+            for i, l in enumerate(largeurs):
+                with cols[i]:
+                    if st.button(f"📏 {l} mm", key=f"btn_chariot_long_{i}"):
+                        st.session_state["largeur_chariot"] = l
+
+            if "largeur_chariot" in st.session_state:
+                largeur = st.session_state["largeur_chariot"]
+                ref_chariot = types_chariots[choix_chariot][largeur]
+            else:
+                st.warning("Veuillez sélectionner une largeur.")
+                st.stop()
+
         else:
             ref_chariot = types_chariots[choix_chariot]
 
@@ -229,8 +244,22 @@ elif famille == "Étagère":
         st.success(f"✅ Étagère sélectionnée : {choix_etagere}")
 
         if isinstance(types_etageres[choix_etagere], dict):
-            largeur = st.selectbox("Choisissez la largeur :", list(types_etageres[choix_etagere].keys()))
-            ref_etagere = types_etageres[choix_etagere][largeur]
+            st.subheader("Choisissez une largeur")
+            largeurs = list(types_etageres[choix_etagere].keys())
+            cols = st.columns(len(largeurs))
+
+            for i, l in enumerate(largeurs):
+                with cols[i]:
+                    if st.button(f"📏 {l} mm", key=f"btn_etagere_long_{i}"):
+                        st.session_state["largeur_etagere"] = l
+
+            if "largeur_etagere" in st.session_state:
+                largeur = st.session_state["largeur_etagere"]
+                ref_etagere = types_etageres[choix_etagere][largeur]
+            else:
+                st.warning("Veuillez sélectionner une largeur.")
+                st.stop()
+
         else:
             ref_etagere = types_etageres[choix_etagere]
 
