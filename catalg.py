@@ -85,7 +85,7 @@ if famille == "Postes de travail":
         st.success(f"✅ Type de poste sélectionné : {type_poste}")
 
         longueurs = {
-             "P-1200",
+            "12003: "P-1200",
             "1500": "P-1500",
             "1800": "P-1800",
             "2500": "P-2500",
