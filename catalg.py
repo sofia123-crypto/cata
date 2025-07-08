@@ -55,19 +55,17 @@ image_path_accessoires = {
 }
 
 # === Sélection famille ===
-st.subheader("Sélectionnez une famille de produits")
-cols = st.columns(3)
-for i, (label, img_path) in enumerate(image_path_familles.items()):
-    with cols[i]:
-        st.image(img_path, caption=label, use_container_width=True)
-        if st.button("Choisir", key=f"famille_{i}"):
-            st.session_state["famille"] = label
-
-if "famille" not in st.session_state:
-    st.stop()
-
-famille = st.session_state["famille"]
-st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
+def select_type(image_dict, state_key, cols_per_row=3):
+    items = list(image_dict.items())
+    cols = st.columns(cols_per_row)
+    for i, (label, img) in enumerate(items):
+        with cols[i % cols_per_row]:
+            if state_key in ["chariot", "etagere"]:
+                st.image(img, caption=label, width=180)
+            else:
+                st.image(img, caption=label, use_container_width=True)
+            if st.button("Sélectionner", key=f"{state_key}_{i}"):
+                st.session_state[state_key] = label
 
 # === Fonction de sélection générique ===
 def select_type(image_dict, state_key, cols_per_row=3):
@@ -78,6 +76,19 @@ def select_type(image_dict, state_key, cols_per_row=3):
             st.image(img, caption=label, use_container_width=True)
             if st.button("Sélectionner", key=f"{state_key}_{i}"):
                 st.session_state[state_key] = label
+
+def select_type(image_dict, state_key, cols_per_row=3):
+    items = list(image_dict.items())
+    cols = st.columns(cols_per_row)
+    for i, (label, img) in enumerate(items):
+        with cols[i % cols_per_row]:
+            if state_key in ["chariot", "etagere"]:
+                st.image(img, caption=label, width=180)
+            else:
+                st.image(img, caption=label, use_container_width=True)
+            if st.button("Sélectionner", key=f"{state_key}_{i}"):
+                st.session_state[state_key] = label
+
 
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une longueur")
@@ -151,7 +162,7 @@ if famille == "Postes de travail":
 # === CHARIOTS ===
 elif famille == "Chariot":
     st.subheader("Sélectionnez le type de chariot")
-    select_type(image_path_chariots, "chariot", 3)
+    select_type(image_path_chariots, "chariot", 4)
 
     if "chariot" in st.session_state:
         choix_chariot = st.session_state["chariot"]
@@ -178,7 +189,7 @@ elif famille == "Chariot":
 # === ÉTAGÈRES ===
 elif famille == "Étagère":
     st.subheader("Sélectionnez le type d'étagère")
-    select_type(image_path_etageres, "etagere", 2)
+    select_type(image_path_etageres, "etagere", 3)
 
     if "etagere" in st.session_state:
         choix_etagere = st.session_state["etagere"]
