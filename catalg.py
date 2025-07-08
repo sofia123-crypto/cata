@@ -60,9 +60,10 @@ cols = st.columns(3)
 for i, (label, img_path) in enumerate(image_path_familles.items()):
     with cols[i]:
         st.image(img_path, use_container_width=True)
-        st.markdown(f"<div style='text-align:center;'>{st.button('Choisir', key=f'famille_{i}')}</div>", unsafe_allow_html=True)
-        if st.session_state.get(f"famille_{i}"):
+        if st.button("Choisir", key=f"famille_{i}"):
             st.session_state["famille"] = label
+        st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)  # petit espacement sous le bouton
+
 
 if "famille" not in st.session_state:
     st.stop()
