@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit as st 
 import os
 
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
@@ -60,10 +60,10 @@ cols = st.columns(3)
 for i, (label, img_path) in enumerate(image_path_familles.items()):
     with cols[i]:
         st.image(img_path, use_container_width=True)
+        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
         if st.button("Choisir", key=f"famille_{i}"):
             st.session_state["famille"] = label
-        st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)  # petit espacement sous le bouton
-
+        st.markdown("</div>", unsafe_allow_html=True)
 
 if "famille" not in st.session_state:
     st.stop()
