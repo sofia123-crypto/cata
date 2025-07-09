@@ -56,20 +56,17 @@ image_path_accessoires = {
 
 # === Sélection famille ===
 st.subheader("Sélectionnez une famille de produits")
+familles = [
+    ("Postes de travail", "images/familles/poste.png", "Choisir Postes de travail"),
+    ("Chariot", "images/familles/chariot.png", "Choisir Chariots"),
+    ("Étagère", "images/familles/etagere.png", "Choisir Étagères"),
+]
+
 cols = st.columns(3)
-for i, (label, img_path) in enumerate(image_path_familles.items()):
+for i, (label, img_path, bouton_label) in enumerate(familles):
     with cols[i]:
         st.image(img_path, use_container_width=True)
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-
-        bouton_label = "Choisir"
-        if label == "Postes de travail":
-            bouton_label = "Choisir Postes de travail"
-        elif label == "Chariot":
-            bouton_label = "Choisir Chariots"
-        elif label == "Étagère":
-            bouton_label = "Choisir Étagères"
-
         if st.button(bouton_label, key=f"famille_{i}"):
             st.session_state["famille"] = label
         st.markdown("</div>", unsafe_allow_html=True)
@@ -94,9 +91,9 @@ def select_type(image_dict, state_key, cols_per_row=3):
             with cols[i]:
                 img_width = 150 if state_key in ["chariot", "etagere"] else None
                 if img_width:
-                  st.image(img, caption=label, width=img_width)
+                    st.image(img, caption=label, width=img_width)
                 else:
-                  st.image(img, caption=label, use_container_width=True)
+                    st.image(img, caption=label, use_container_width=True)
 
                 if st.button("Sélectionner", key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
