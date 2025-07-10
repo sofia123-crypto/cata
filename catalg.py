@@ -18,10 +18,10 @@ image_path_familles = {
 }
 
 image_path_postes = {
-    "Poste de travail simple": "images/simple.png",
-    "Poste de travail avec stockeur intégré (Assis)": "images/stockeur.png",
-    "Poste de travail avec tiroir": "images/tiroir.png",
-    "Poste de travail (Assis debout)": "images/assis_debout.png"
+    "Poste de travail simple": "images/simple.jpg",
+    "Poste de travail avec stockeur intégré (Assis)": "images/stockeur.jpg",
+    "Poste de travail avec tiroir": "images/tiroir.jpg",
+    "Poste de travail (Assis debout)": "images/assis_debout.jpg"
 }
 
 image_path_chariots = {
