@@ -91,9 +91,9 @@ def select_type(image_dict, state_key, cols_per_row=3):
             with cols[i]:
                 img_width = 150 if state_key in ["chariot", "etagere"] else None
                 if img_width:
-                    st.image(img, caption=label, width=img_width)
+                    st.image(img, width=img_width)
                 else:
-                    st.image(img, caption=label, use_container_width=True)
+                    st.image(img, use_container_width=True)
 
                 if st.button("Sélectionner", key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
