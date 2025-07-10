@@ -152,7 +152,7 @@ if famille == "Postes de travail":
                     if idx < len(acc_items):
                         acc_label, acc_img = acc_items[idx]
                         with cols[col]:
-                            st.image(acc_img, caption=acc_label, width=80)
+                            st.image(acc_img, width=80)
                             if st.checkbox(acc_label, key=f"acc_{idx}"):
                                 accessoires_choisis.append(acc_label)
 
