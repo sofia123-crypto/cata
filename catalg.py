@@ -3,6 +3,9 @@ import os
 
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
 
+IMAGE_WIDTH = 150  # Largeur standard pour toutes les images
+ACCESSOIRE_WIDTH = 80  # Plus petit pour les accessoires
+
 # === En-tête avec logo ===
 col1, col2 = st.columns([5, 1])
 with col1:
@@ -57,15 +60,15 @@ image_path_accessoires = {
 # === Sélection famille ===
 st.subheader("Sélectionnez une famille de produits")
 familles = [
-    ("Postes de travail", "images/familles/poste.png", "Choisir Postes de travail"),
-    ("Chariot", "images/familles/chariot.png", "Choisir Chariots"),
-    ("Étagère", "images/familles/etagere.png", "Choisir Étagères"),
+    ("Postes de travail", image_path_familles["Postes de travail"], "Choisir Postes de travail"),
+    ("Chariot", image_path_familles["Chariot"], "Choisir Chariots"),
+    ("Étagère", image_path_familles["Étagère"], "Choisir Étagères"),
 ]
 
 cols = st.columns(3)
 for i, (label, img_path, bouton_label) in enumerate(familles):
     with cols[i]:
-        st.image(img_path, use_container_width=True)
+        st.image(img_path, width=IMAGE_WIDTH)
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
         if st.button(bouton_label, key=f"famille_{i}"):
             st.session_state["famille"] = label
@@ -89,12 +92,7 @@ def select_type(image_dict, state_key, cols_per_row=3):
                 continue
             label, img = items[idx]
             with cols[i]:
-                img_width = 150 if state_key in ["chariot", "etagere"] else None
-                if img_width:
-                    st.image(img, caption=label, width=img_width)
-                else:
-                    st.image(img, caption=label, use_container_width=True)
-
+                st.image(img, caption=label, width=IMAGE_WIDTH)
                 if st.button("Sélectionner", key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
 
@@ -152,7 +150,7 @@ if famille == "Postes de travail":
                     if idx < len(acc_items):
                         acc_label, acc_img = acc_items[idx]
                         with cols[col]:
-                            st.image(acc_img, caption=acc_label, width=80)
+                            st.image(acc_img, caption=acc_label, width=ACCESSOIRE_WIDTH)
                             if st.checkbox(acc_label, key=f"acc_{idx}"):
                                 accessoires_choisis.append(acc_label)
 
