@@ -44,14 +44,14 @@ image_path_etageres = {
 }
 
 image_path_accessoires = {
-    "Tiroir (T)": "images/accessoires/tiroir.png",
-    "Prise (P)": "images/accessoires/prise.png",
-    "Lampe Loupe (LL)": "images/accessoires/lampe_loupe.png",
-    "Support bouteille (SB)": "images/accessoires/bouteille.png",
-    "Support écran (SE)": "images/accessoires/ecran.png",
-    "Repose pied (RP)": "images/accessoires/repose_pied.png",
-    "Éclairage LED (E)": "images/accessoires/led.png",
-    "Support air chaud (AC)": "images/accessoires/air_chaud.png"
+    "Tiroir (T)": "images/accessoires/tiroir.jpg",
+    "Prise (P)": "images/accessoires/prise.jpg",
+    "Lampe Loupe (LL)": "images/accessoires/lampe_loupe.jpg",
+    "Support bouteille (SB)": "images/accessoires/bouteille.jpg",
+    "Support écran (SE)": "images/accessoires/ecran.jpg",
+    "Repose pied (RP)": "images/accessoires/repose_pied.jpg",
+    "Éclairage LED (E)": "images/accessoires/led.jpg",
+    "Support air chaud (AC)": "images/accessoires/air_chaud.jpg"
 }
 
 # === Sélection famille ===
