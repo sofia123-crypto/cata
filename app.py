@@ -2,14 +2,14 @@ import streamlit as st
 import base64
 import os
 
+# === Configuration de la page (doit être en tout premier !) ===
+st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
+
+# === Initialisation session_state ===
 if "famille" not in st.session_state:
     st.session_state["famille"] = None
 
-st.write("✅ session_state ready:", st.session_state)
-
-st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
-
-# Style des boutons
+# === Style des boutons ===
 st.markdown("""
     <style>
     .stButton > button {
@@ -20,12 +20,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Utilitaire image en base64 (pour encadrement)
+# === Utilitaire : convertir image en base64 ===
 def get_image_base64(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-# === Logo & Titre ===
+# === Header avec logo ===
 col1, col2 = st.columns([5, 1])
 with col1:
     st.title("🔩 Configurateur de Poste de Travail")
@@ -76,38 +76,31 @@ image_path_accessoires = {
     "Support air chaud (AC)": "images/accessoires/air_chaud.jpg"
 }
 
-# === Sélection famille ===
+# === Sélection famille avec encadrement ===
 st.subheader("Sélectionnez une famille de produits")
-familles = [
-    ("Postes de travail", image_path_familles["Postes de travail"], "Choisir Postes de travail"),
-    ("Chariot", image_path_familles["Chariot"], "Choisir Chariots"),
-    ("Étagère", image_path_familles["Étagère"], "Choisir Étagères"),
-]
-
+familles = list(image_path_familles.items())
 cols = st.columns(3)
-for i, (label, img_path, bouton_label) in enumerate(familles):
+for i, (label, img_path) in enumerate(familles):
     with cols[i]:
-        is_selected = st.session_state.get("famille") == label
+        is_selected = st.session_state["famille"] == label
         if is_selected:
             st.markdown(
                 f"<div style='border: 3px solid #2980b9; border-radius: 10px; padding: 5px;'>"
                 f"<img src='data:image/png;base64,{get_image_base64(img_path)}' style='width:100%; border-radius:5px;'/>"
-                f"</div>",
-                unsafe_allow_html=True
-            )
+                f"</div>", unsafe_allow_html=True)
         else:
             st.image(img_path, use_container_width=True)
-
-        if st.button(bouton_label, key=f"famille_{i}"):
+        if st.button(f"Choisir {label}", key=f"famille_{i}"):
             st.session_state["famille"] = label
+            st.experimental_rerun()
 
-if "famille" not in st.session_state:
+if not st.session_state["famille"]:
     st.stop()
 
 famille = st.session_state["famille"]
 st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
-# === Sélection générique ===
+# === Fonction sélection générique avec encadrement ===
 def select_type(image_dict, state_key, cols_per_row=3):
     items = list(image_dict.items())
     rows = (len(items) + cols_per_row - 1) // cols_per_row
@@ -124,15 +117,14 @@ def select_type(image_dict, state_key, cols_per_row=3):
                     st.markdown(
                         f"<div style='border: 3px solid #2980b9; border-radius: 10px; padding: 5px;'>"
                         f"<img src='data:image/jpeg;base64,{get_image_base64(img)}' style='width:100%; border-radius:5px;'/>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
+                        f"</div>", unsafe_allow_html=True)
                 else:
                     st.image(img, use_container_width=True)
-
                 if st.button(label, key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
+                    st.experimental_rerun()
 
+# === Sélection largeur ===
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une largeur")
     cols = st.columns(len(largeurs))
@@ -140,8 +132,10 @@ def select_largeur(largeurs, state_key):
         with cols[i]:
             if st.button(f"📏 {val} mm", key=f"btn_{state_key}_{i}"):
                 st.session_state[state_key] = val
+                st.experimental_rerun()
     return st.session_state.get(state_key)
 
+# === Générer référence ===
 def generate_ref_button(reference):
     if st.button("🔍 Générer la référence"):
         st.success(f"📦 Référence générée : {reference}")
