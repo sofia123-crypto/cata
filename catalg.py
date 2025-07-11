@@ -1,6 +1,6 @@
 import streamlit as st 
 import os
-
+import base64
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
 
 # === En-tête avec logo ===
@@ -78,9 +78,16 @@ famille = st.session_state["famille"]
 st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
 # === Fonction sélection générique ===
+
+
+def get_image_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
 def select_type(image_dict, state_key, cols_per_row=3):
     items = list(image_dict.items())
     rows = (len(items) + cols_per_row - 1) // cols_per_row
+
     for r in range(rows):
         cols = st.columns(cols_per_row)
         for i in range(cols_per_row):
@@ -88,16 +95,26 @@ def select_type(image_dict, state_key, cols_per_row=3):
             if idx >= len(items):
                 continue
             label, img = items[idx]
+
             with cols[i]:
-                img_width = 150 if state_key in ["chariot", "etagere"] else None
-                if img_width:
-                    st.image(img, width=img_width)
+                is_selected = st.session_state.get(state_key) == label
+
+                # HTML style pour encadrer l'image si sélectionnée
+                if is_selected:
+                    st.markdown(
+                        f"""
+                        <div style="border: 3px solid #2980b9; border-radius: 10px; padding: 5px;">
+                            <img src="data:image/jpeg;base64,{get_image_base64(img)}" style="width:100%; border-radius:5px;" />
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
                 else:
                     st.image(img, use_container_width=True)
 
-                # 🔁 ici on remplace "Sélectionner" par le nom
                 if st.button(label, key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
+
 
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une largeur")
