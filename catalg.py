@@ -1,5 +1,10 @@
 import streamlit as st 
 import os
+import base64
+
+def get_image_base64(img_path):
+    with open(img_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
 
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
 
@@ -64,18 +69,24 @@ familles = [
 
 cols = st.columns(3)
 for i, (label, img_path, bouton_label) in enumerate(familles):
+    selected = st.session_state.get("famille") == label
+    border_style = "4px solid #3399FF" if selected else "2px solid transparent"
+    img_b64 = get_image_base64(img_path)
+
     with cols[i]:
-        st.image(img_path, use_container_width=True)
-        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
+        st.markdown(f"""
+            <div style="border:{border_style}; border-radius:10px; padding:5px; text-align:center">
+                <img src="data:image/png;base64,{img_b64}" style="width:100%; border-radius:10px"/>
+                <br>
+                <button style="margin-top:8px;" onclick="document.getElementById('btn_{i}').click()"> {bouton_label} </button>
+            </div>
+        """, unsafe_allow_html=True)
         if st.button(bouton_label, key=f"famille_{i}"):
             st.session_state["famille"] = label
-        st.markdown("</div>", unsafe_allow_html=True)
-
-if "famille" not in st.session_state:
+famille = st.session_state.get("famille", "")
+if not famille:
     st.stop()
 
-famille = st.session_state["famille"]
-st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
 # === Fonction sélection générique ===
 def select_type(image_dict, state_key, cols_per_row=3):
@@ -87,17 +98,23 @@ def select_type(image_dict, state_key, cols_per_row=3):
             idx = r * cols_per_row + i
             if idx >= len(items):
                 continue
-            label, img = items[idx]
-            with cols[i]:
-                img_width = 150 if state_key in ["chariot", "etagere"] else None
-                if img_width:
-                    st.image(img, width=img_width)
-                else:
-                    st.image(img, use_container_width=True)
+            label, img_path = items[idx]
+            selected = st.session_state.get(state_key) == label
+            border_style = "4px solid #3399FF" if selected else "2px solid transparent"
+            img_b64 = get_image_base64(img_path)
+            img_width = "150px" if state_key in ["chariot", "etagere"] else "100%"
 
-                # 🔁 ici on remplace "Sélectionner" par le nom
+            with cols[i]:
+                st.markdown(f"""
+                    <div style="border:{border_style}; border-radius:10px; padding:5px; text-align:center">
+                        <img src="data:image/png;base64,{img_b64}" style="width:{img_width}; border-radius:10px"/>
+                        <br>
+                        <button style="margin-top:8px;" onclick="document.getElementById('btn_{state_key}_{idx}').click()"> {label} </button>
+                    </div>
+                """, unsafe_allow_html=True)
                 if st.button(label, key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
+
 
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une largeur")
