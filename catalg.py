@@ -213,3 +213,5 @@ elif famille == "Étagère":
                 generate_ref_button(types[choix][selected])
         else:
             generate_ref_button(types[choix])
+else:
+    st.error("❌ Famille inconnue. Veuillez réessayer.")
