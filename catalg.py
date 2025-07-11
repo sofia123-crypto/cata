@@ -95,7 +95,8 @@ def select_type(image_dict, state_key, cols_per_row=3):
                 else:
                     st.image(img, use_container_width=True)
 
-                if st.button("Sélectionner", key=f"{state_key}_{idx}"):
+                # 🔁 ici on remplace "Sélectionner" par le nom
+                if st.button(label, key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
 
 def select_largeur(largeurs, state_key):
