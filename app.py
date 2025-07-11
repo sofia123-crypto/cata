@@ -1,6 +1,10 @@
 import streamlit as st
 import base64
 import os
+
+if "famille" not in st.session_state:
+    st.session_state["famille"] = None
+
 st.write("✅ session_state ready:", st.session_state)
 
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
