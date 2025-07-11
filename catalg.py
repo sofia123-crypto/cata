@@ -2,10 +2,9 @@ import streamlit as st
 import base64
 import os
 
-# Configuration de la page
 st.set_page_config(page_title="🔩 Sélecteur de Poste", layout="wide")
 
-# 👉 Ajoute le style juste ici :
+# Style des boutons
 st.markdown("""
     <style>
     .stButton > button {
@@ -16,12 +15,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# === Fonction utilitaire : convertir image en base64 ===
+# Utilitaire image en base64 (pour encadrement)
 def get_image_base64(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-# === En-tête avec logo ===
+# === Logo & Titre ===
 col1, col2 = st.columns([5, 1])
 with col1:
     st.title("🔩 Configurateur de Poste de Travail")
@@ -72,7 +71,7 @@ image_path_accessoires = {
     "Support air chaud (AC)": "images/accessoires/air_chaud.jpg"
 }
 
-# === Sélection famille avec encadrement bleu ===
+# === Sélection famille ===
 st.subheader("Sélectionnez une famille de produits")
 familles = [
     ("Postes de travail", image_path_familles["Postes de travail"], "Choisir Postes de travail"),
@@ -96,16 +95,14 @@ for i, (label, img_path, bouton_label) in enumerate(familles):
 
         if st.button(bouton_label, key=f"famille_{i}"):
             st.session_state["famille"] = label
-            st.experimental_rerun()
 
-# === Si aucune famille sélectionnée, on arrête ici ===
 if "famille" not in st.session_state:
     st.stop()
 
 famille = st.session_state["famille"]
 st.markdown(f"### ✅ Famille sélectionnée : **{famille}**")
 
-# === Fonction sélection générique avec encadrement bleu ===
+# === Sélection générique ===
 def select_type(image_dict, state_key, cols_per_row=3):
     items = list(image_dict.items())
     rows = (len(items) + cols_per_row - 1) // cols_per_row
@@ -130,7 +127,6 @@ def select_type(image_dict, state_key, cols_per_row=3):
 
                 if st.button(label, key=f"{state_key}_{idx}"):
                     st.session_state[state_key] = label
-                    st.experimental_rerun()
 
 def select_largeur(largeurs, state_key):
     st.subheader("Choisissez une largeur")
@@ -139,14 +135,13 @@ def select_largeur(largeurs, state_key):
         with cols[i]:
             if st.button(f"📏 {val} mm", key=f"btn_{state_key}_{i}"):
                 st.session_state[state_key] = val
-                st.experimental_rerun()
     return st.session_state.get(state_key)
 
 def generate_ref_button(reference):
     if st.button("🔍 Générer la référence"):
         st.success(f"📦 Référence générée : {reference}")
 
-# === POSTES DE TRAVAIL ===
+# === POSTES ===
 if famille == "Postes de travail":
     st.subheader("Sélectionnez le type de poste de travail")
     select_type(image_path_postes, "type_poste", 4)
@@ -162,15 +157,14 @@ if famille == "Postes de travail":
             "2500": "P-2500",
             "3000": "P-3000"
         }
-        suffixe = ""
-        if type_poste == "Poste de travail avec stockeur intégré (Assis)":
-            suffixe = "-st"
-        elif type_poste == "Poste de travail simple":
-            suffixe = "-sp"
-        elif type_poste == "Poste de travail avec tiroir":
-            suffixe = "-tr"
-        elif type_poste == "Poste de travail (Assis debout)":
-            suffixe = "-ad"
+        suffixe = {
+            "Poste de travail avec stockeur intégré (Assis)": "-st",
+            "Poste de travail simple": "-sp",
+            "Poste de travail avec tiroir": "-tr",
+            "Poste de travail (Assis debout)": "-ad"
+        }.get(type_poste, "")
+
+        if type_poste == "Poste de travail (Assis debout)":
             largeurs = {"1200": "P-1200", "1500": "P-1500"}
 
         selected = select_largeur(list(largeurs.keys()), "largeur")
